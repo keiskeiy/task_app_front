@@ -1,19 +1,25 @@
-import './App.css'
-import { Button, DatePicker, Space, version } from "antd";
+import { ConfigProvider } from "antd";
+import locale from "antd/locale/ja_JP";
+import dayjs from "dayjs";
 
-function App() {
+import "dayjs/locale/ja";
+import { RouterProvider } from "react-router";
+import { router } from "./routes";
 
+dayjs.locale("ja");
+
+export default function App() {
   return (
-    <>
-      <div style={{ padding: '0 24px' }}>
-        <h1>antd version: {version}</h1>
-        <Space>
-          <DatePicker/>
-          <Button type="primary">Primary Button</Button>
-        </Space>
-      </div>
-    </>
-  )
+    <ConfigProvider
+      locale={locale}
+      theme={{
+        token: {
+          colorPrimary: "#1e40af",
+          fontSize: 16,
+        },
+      }}
+    >
+      <RouterProvider router={router} />
+    </ConfigProvider>
+  );
 }
-
-export default App

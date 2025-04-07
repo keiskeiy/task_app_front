@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "todos/:todoId",
-            element: <TodoList />,
+            element: <TodoList/>,
           },
         ],
       },

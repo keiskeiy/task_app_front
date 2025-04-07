@@ -2,11 +2,15 @@ import { useParams } from "react-router";
 import { Button, CheckboxChangeEvent, Input, Layout, Modal, theme } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { Tasks } from "../components/Tasks.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+export type AllTodoList = {
+  [id: string]: { title: string }[]
+}
+const allTodoList: AllTodoList = {}
 
 export function TodoList({}) {
-
+  // Todoリストの初期データ
   const data = [
     {
       title: 'Title 1',
@@ -33,17 +37,33 @@ export function TodoList({}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
+  useEffect(() => {
+    if (!todoId) {
+      return;
+    }
+    if (allTodoList[todoId] == undefined) {
+      allTodoList[todoId] = data;
+    }
+    setTasks(allTodoList[todoId]);
+  }, [todoId]);
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   const addTodo = (addData: { title: string }) => {
-    setTasks([...tasks, addData]); // 新しい配列を作る
+    setTasks([...tasks, addData]);// 新しい配列を作る
+    if (todoId) {
+      allTodoList[todoId] = tasks;
+    }
   }
 
   const deleteTask = (e: CheckboxChangeEvent, index: number) => {
     if (e.target.checked) {
       setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
+    }
+    if (todoId) {
+      allTodoList[todoId] = tasks;
     }
   };
 

@@ -4,10 +4,11 @@ import { useNavigate } from "react-router";
 import { ItemType } from "antd/es/menu/interface";
 import { useState } from "react";
 
-const todoList: ItemType[] = [{ key: "1", label: "Todo 1" }, { key: "2", label: "Todo 2" }, {
-  key: "3",
-  label: "Todo 3"
-}];
+const todoList: ItemType[] = [
+  { key: "1", label: "Todo 1" },
+  { key: "2", label: "Todo 2" },
+  { key: "3", label: "Todo 3" }
+];
 
 export function SideMenu() {
 

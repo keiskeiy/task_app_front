@@ -54,16 +54,17 @@ export function TodoList({}) {
   const addTodo = (addData: { title: string }) => {
     setTasks([...tasks, addData]);// 新しい配列を作る
     if (todoId) {
-      allTodoList[todoId] = tasks;
+      allTodoList[todoId] = [...tasks, addData];
     }
   }
 
   const deleteTask = (e: CheckboxChangeEvent, index: number) => {
+    const updatedTasks = tasks.filter((_, i) => i !== index);
     if (e.target.checked) {
-      setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
+      setTasks(updatedTasks);
     }
     if (todoId) {
-      allTodoList[todoId] = tasks;
+      allTodoList[todoId] = updatedTasks;
     }
   };
 

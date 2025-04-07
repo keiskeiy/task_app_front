@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "/",
-            element: <Navigate replace to="/main"/>, // トップは検索ページに飛ばす
+            element: <Navigate replace to="todos/1"/>, // トップは検索ページに飛ばす
           },
           {
             path: "/main",

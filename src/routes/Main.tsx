@@ -18,7 +18,7 @@ export function Main() {
             borderRadius: borderRadiusLG,
           }}
         >
-          Content
+          タスクを入力してください
         </Content>
       </Layout>
     </>

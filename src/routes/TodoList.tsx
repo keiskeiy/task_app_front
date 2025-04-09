@@ -86,7 +86,7 @@ export function TodoList({}) {
             alignItems: "center",
             paddingLeft: "20px",
           }}>
-            <h1 style={{ paddingRight: "30px" }}>Todoリスト{todoId}</h1>
+            <h1 style={{ paddingRight: "30px" }}>{todoId}</h1>
             <Button color="default" variant="solid" onClick={() => setIsModalOpen(true)}>
               Todoを追加
             </Button>
@@ -94,7 +94,9 @@ export function TodoList({}) {
               title="新しいTodo"
               open={isModalOpen}
               onOk={() => {
-                addTodo({ title: inputValue });
+                if (inputValue !== "") {
+                  addTodo({ title: inputValue })
+                }
                 setIsModalOpen(false);
                 setInputValue("");
               }}

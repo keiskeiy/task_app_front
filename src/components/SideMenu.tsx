@@ -1,8 +1,9 @@
 import Sider from "antd/es/layout/Sider";
 import { Menu, MenuProps, Input } from "antd";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { useState } from "react";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { useTodoContext } from "./TodoContext.tsx";
 
 type ItemType = {
   key: string;
@@ -10,6 +11,7 @@ type ItemType = {
 }
 
 export function SideMenu() {
+  const { allTodoList, setAllTodoList } = useTodoContext();
   const [todoList, setTodoList] = useState<ItemType[]>([]);
   const [hover, setHover] = useState(false);
   const navigate = useNavigate();
@@ -27,6 +29,21 @@ export function SideMenu() {
 
   const addTodoList = () => {
     setIsForm(true);
+  }
+
+  const deleteTodoList = (key: string) => {
+    const newTodoList = todoList.filter((item) => item.key !== key);
+    for (let i = Number(key) - 1; i < newTodoList.length; i++) {
+      newTodoList[i].key = (i - 1).toString();
+    }
+    setTodoList(newTodoList);
+    console.log(allTodoList)
+    setAllTodoList((prev) => {
+      const newList = { ...prev };
+      delete newList[key];
+      return newList;
+    });
+    navigate(`/main`);
   }
 
   return (
@@ -51,7 +68,22 @@ export function SideMenu() {
         mode="inline"
         selectedKeys={[selectedKey]}
         onClick={handleClick}
-        items={todoList}
+        items={todoList.map((item) => ({
+          key: item.key,
+          label: (
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span>{item.label}</span>
+              <DeleteOutlined
+                onClick={(e) => {
+                  e.stopPropagation(); // メニューのクリックイベントを防ぐ
+                  deleteTodoList(item.key);
+                  Navigate
+                }}
+                style={{ color: "red", cursor: "pointer" }}
+              />
+            </div>
+          )
+        }))}
       />
       <div style={{ cursor: "pointer" }}
            onMouseEnter={() => setHover(true)}
@@ -97,7 +129,8 @@ export function SideMenu() {
                 }
               }}
               placeholder="Todoリスト名を入力..."
-            /></div>}
+            />
+          </div>}
       </div>
     </Sider>
   );

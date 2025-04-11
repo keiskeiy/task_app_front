@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ja";
 import { RouterProvider } from "react-router";
 import { router } from "./routes";
+import { TodoProvider } from "./components/TodoContext.tsx";
 
 dayjs.locale("ja");
 
@@ -19,7 +20,9 @@ export default function App() {
         },
       }}
     >
-      <RouterProvider router={router} />
+      <TodoProvider>
+        <RouterProvider router={router} />
+      </TodoProvider>
     </ConfigProvider>
   );
 }

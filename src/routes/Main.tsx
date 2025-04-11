@@ -18,7 +18,9 @@ export function Main() {
             borderRadius: borderRadiusLG,
           }}
         >
-          タスクを入力してください
+          <div style={{ color: "black", display: "flex", justifyContent: "center", alignItems: "center", height: "20%", fontSize: "20px" }}>
+            タスクを入力、もしくは選んでください
+          </div>
         </Content>
       </Layout>
     </>

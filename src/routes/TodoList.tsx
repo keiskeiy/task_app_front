@@ -24,21 +24,21 @@ export function TodoList({}) {
         [todoId]: data,
       }));
     }
-    setTasks(allTodoList[todoId]);
-  }, [todoId]);
+    setTasks(allTodoList[todoId] || []);
+  }, [todoId, allTodoList]);
 
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   const addTodo = (addData: { title: string }) => {
-    setTasks([...tasks, addData]);// 新しい配列を作る
-    if (todoId) {
-      setAllTodoList((prev) => ({
-        ...prev,
-        [todoId]: [...tasks, addData],
-      }));
-    }
+    if (!todoId || !addData.title) return;
+    const updatedTasks = [...tasks, addData];
+    setTasks(updatedTasks);
+    setAllTodoList((prev) => ({
+      ...prev,
+      [todoId]: updatedTasks,
+    }));
   }
 
   const deleteTask = (e: CheckboxChangeEvent, index: number) => {
@@ -81,10 +81,12 @@ export function TodoList({}) {
               open={isModalOpen}
               onOk={() => {
                 if (inputValue !== "") {
-                  addTodo({ title: inputValue })
+                  addTodo({ title: inputValue });
+                  setIsModalOpen(false);
+                  setInputValue("");
+                } else {
+                  setIsModalOpen(false);
                 }
-                setIsModalOpen(false);
-                setInputValue("");
               }}
               style={{ alignItems: "center" }}
               onCancel={() => setIsModalOpen(false)}
